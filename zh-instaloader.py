@@ -5,7 +5,7 @@ import json
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5173", "http://localhost:5173"]}})
+CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5173", "http://localhost:5173", "https://ig-zh.vercel.app"]}})
 
 JSON_FILE_PATH = 'reels_data_json'
 
