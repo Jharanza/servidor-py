@@ -22,12 +22,10 @@ def favicon():
 def get_latest_reels():
     try:
         if os.path.exists(JSON_FILE_PATH):
-            with open(JSON_FILE_PATH, 'r') as file:
-                reels_data = json.load(file)
-            return jsonify(reels_data)
+            os.remove(JSON_FILE_PATH)
             
         L = Instaloader()
-        profile = Profile.from_username(L.context, 'hotelzamora')
+        profile = getProfileInstagram('hotelzamora')
 
         reels_data = []
         
@@ -40,17 +38,22 @@ def get_latest_reels():
                 }
                 reels_data.append(reel_info)
 
-            if len(reels_data) >= 6:
+            if len(reels_data) >= 3:
                 break
             
         with open(JSON_FILE_PATH, 'w') as file:
             json.dump(reels_data, file)
             
-        return jsonify(reels_data, file)
+        return jsonify(reels_data)
  
     except Exception as e:
         print(f'Error: {e}')
         return jsonify({ 'error': str(e) })
+
+def getProfileInstagram(username):
+    L = Instaloader()
+    return Profile.from_username(L.context, username)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
