@@ -24,7 +24,6 @@ def get_latest_reels():
         if os.path.exists(JSON_FILE_PATH):
             os.remove(JSON_FILE_PATH)
             
-        L = Instaloader()
         profile = getProfileInstagram('hotelzamora')
 
         reels_data = []
@@ -38,16 +37,16 @@ def get_latest_reels():
                 }
                 reels_data.append(reel_info)
 
-            if len(reels_data) >= 3:
+            if len(reels_data) >= 8:
                 break
             
         with open(JSON_FILE_PATH, 'w') as file:
             json.dump(reels_data, file)
             
         return jsonify(reels_data)
- 
+
     except Exception as e:
-        print(f'Error: {e}')
+        print(f"Error al procesar los reels: {e}")
         return jsonify({ 'error': str(e) })
 
 def getProfileInstagram(username):
