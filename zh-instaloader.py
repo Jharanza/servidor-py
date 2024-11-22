@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-JSON_FILE_PATH = 'reels_data_json'
+JSON_FILE_PATH = '/tmp/reels_data_json'
 
 @app.route('/', methods=['GET'])
 def home():
@@ -42,7 +42,7 @@ def get_latest_reels():
             
         with open(JSON_FILE_PATH, 'w') as file:
             json.dump(reels_data, file)
-            
+        print(f"Archivo JSON creado: {os.path.exists(JSON_FILE_PATH)}")
         return jsonify(reels_data)
 
     except Exception as e:
