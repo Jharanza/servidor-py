@@ -1,1 +1,1 @@
-web: gunicorn zh-instaloader:app
+web: python3 zh-instaloader:app
