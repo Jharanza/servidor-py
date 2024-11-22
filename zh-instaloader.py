@@ -61,21 +61,27 @@ def proxy():
         return jsonify({ 'error': 'Missing a the url param'}), 400
     
     try:
-        response = requests.get(target_url)
+        # Realiza la solicitud al servidor externo
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'
+        }
+        response = requests.get(target_url, headers=headers)
         
         return jsonify({
             'status': response.status_code,
             'headers': dict(response.headers),
-            'body': response.json()
+            'body': response.json() if response.headers.get('Content-Type') == 'application/json' else response.text
         })
     except Exception as e:
-        return jsonify({ 'error': str(e) })
+        return jsonify({'error': str(e)})
 
 def getProfileInstagram(username):
-    L = Instaloader()
-    L.context.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'})
-    return Profile.from_username(L.context, username)
-
+    try:
+        L = Instaloader()
+        return Profile.from_username(L.context, username)
+    except Exception as e:
+        print(f"Error al obtener el perfil: {e}")
+        raise e
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
