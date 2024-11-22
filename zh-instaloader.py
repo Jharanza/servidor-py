@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-JSON_FILE_PATH = '/tmp/reels_data_json'
+JSON_FILE_PATH = '/reels_data_json'
 
 @app.route('/', methods=['GET'])
 def home():
@@ -51,6 +51,7 @@ def get_latest_reels():
 
 def getProfileInstagram(username):
     L = Instaloader()
+    L.context.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'})
     return Profile.from_username(L.context, username)
 
 
