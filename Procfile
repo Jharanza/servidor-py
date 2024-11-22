@@ -1,1 +1,1 @@
-web: python3 zh-instaloader:app
+web: python zh-instaloader:app
