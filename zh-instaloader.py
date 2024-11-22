@@ -3,6 +3,7 @@ from flask_cors import CORS
 from instaloader import Instaloader, Profile
 import json
 import os
+import requests
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -47,6 +48,27 @@ def get_latest_reels():
 
     except Exception as e:
         print(f"Error al procesar los reels: {e}")
+        return jsonify({ 'error': str(e) })
+    
+@app.route('/api/proxy', methods=['GET'])
+def proxy():
+    """
+    This endpoint act as a proxy 
+    """
+    target_url = requests.args.get('url')
+    
+    if not target_url:
+        return jsonify({ 'error': 'Missing a the url param'}), 400
+    
+    try:
+        response = requests.get(target_url)
+        
+        return jsonify({
+            'status': response.status_code,
+            'headers': dict(response.headers),
+            'body': response.json()
+        })
+    except Exception as e:
         return jsonify({ 'error': str(e) })
 
 def getProfileInstagram(username):
