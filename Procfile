@@ -1,1 +1,2 @@
-web: gunicorn zh-instaloader:app
+web: gunicorn graphApy:app
+
