@@ -1,2 +1,2 @@
-web: gunicorn graphApy:app
+web: gunicorn graphApi:app
 
